@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block head %}
+<title>NoteTaker</title>
+{% endblock head %}
+
+{% block body %}
+{% include "note/nav.html" %}
+<main>
+    <div class="row m-2 overflowx-auto overflowy-hidden">
+        {% for note in notes %}
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ note.title }}</h4>
+                <p class="text-secondary">{{note.updated_at|naturaltime}}</p>
+                <p class="card-text">
+                    {{ note.body }}
+                </p>
+                <form class="form-inline" action="{% url 'note:deletenote' note.id %}" method="post">
+                  {% csrf_token %}
+                <a href="{% url 'note:updatenote' note.id %}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square fa-sm"></i></a>
+                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can fa-sm"></i></button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+</main>
+{% endblock body %}

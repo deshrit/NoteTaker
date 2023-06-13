@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Signup</title>
+<link rel="stylesheet" href="{% static '/users/css/signup.css' %}">
+{% endblock head %}
+
+{% block body %}
+<div class="container w-100 h-100 d-flex justify-content-center align-items-center flex-column">
+    <form class="col-sm-4" action="" method="post">
+        {% csrf_token %}
+        <h1 class="text-center text-white py-2 bg-secondary rounded">NoteTaker - Signup</h1>
+        
+        {% if form.errors %}
+            <div class="alert alert-danger p-1">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% for field in form %}
+        <div class="form-group my-2">
+            {{ field }}
+            {% if field.help_text %}
+            <small class="form-text ms-2">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <input class="btn btn-primary w-100" type="submit" value="Signup">
+    </form>
+    <p>Already have account? <a href="{% url 'users:login' %}">Login</a></p>
+</div>
+{% endblock body %}

@@ -1,0 +1,19 @@
+<nav class="navbar navbar-light bg-secondary ">
+    <a class="navbar-brand text-white mx-4" href="{% url 'note:index' %}"><h4>NoteTaker</h4></a>
+    {% if request.resolver_match.url_name == 'index' or request.resolver_match.url_name == 'profile' %}
+    <a class="btn btn-warning" data-toggle="modal" href="{% url 'note:takenote' %}">
+        <i class="fa-sharp fa-solid fa-file-pen"></i>Take Note
+    </a>
+    {% else %}
+        <a class="btn btn-danger col-sm-2" data-toggle="modal" href="{% url 'note:index' %}">
+            Cancel
+        </a>
+    {% endif %}
+    <div class="d-flex flex-row align-items-center">
+        <a class="btn btn-sm btn-light" href="{% url 'users:profile' %}">Profile</a>
+        <form class="mx-3" action="{% url 'users:logout' %}" method="post">
+            {% csrf_token %}
+            <input class="btn btn-sm btn-primary" type="submit" value="Logout">
+        </form>
+    </div>
+</nav>
