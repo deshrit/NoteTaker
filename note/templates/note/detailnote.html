@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+
+
+{% block head %}
+<title>Detail note</title>
+{% endblock head %}
+
+
+{% block body %}
+{% include "nav.html" %}
+<div class="container mt-5 d-flex justify-content-center align-items-center flex-column">
+    <div class="col-sm-5">
+        <div class="my-2 card">
+          <div class="card-body">
+              <h4 class="card-title">{{ note.title }}</h4>
+              <p class="text-secondary">{{ note.updated_at|naturaltime }}</p>
+              <p class="card-text">
+                  {{ note.body }}
+              </p>  
+              <form class="my-1 form-inline" action="{% url 'note:deletenote' note.id %}" method="post">
+                {% csrf_token %}
+              <a href="{% url 'note:updatenote' note.id %}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square fa-sm"></i></a>
+              <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can fa-sm"></i></button>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

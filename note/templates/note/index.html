@@ -1,33 +1,78 @@
 {% extends "base.html" %}
+{% load static %}
 {% load humanize %}
 
 {% block head %}
-<title>NoteTaker</title>
+<title>{{ user.username|default:"NoteTaker" }}</title>
+<link rel="stylesheet" href="{% static 'note/css/index.css' %}">
+<script defer src="{% static 'note/js/index.js' %}"></script>
 {% endblock head %}
 
 {% block body %}
-{% include "note/nav.html" %}
-<main>
-    <div class="row m-2 overflowx-auto overflowy-hidden">
+{% include "nav.html" %}
+<main class="w-100 h-100">
+    <div class="m-2 row overflowx-auto overflowy-hidden">
         {% for note in notes %}
         <div class="col-sm-3">
-          <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">{{ note.title }}</h4>
-                <p class="text-secondary">{{note.updated_at|naturaltime}}</p>
-                <p class="card-text">
-                    {{ note.body }}
-                </p>
-                <form class="form-inline" action="{% url 'note:deletenote' note.id %}" method="post">
-                  {% csrf_token %}
-                <a href="{% url 'note:updatenote' note.id %}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square fa-sm"></i></a>
-                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can fa-sm"></i></button>
-              </form>
-            </div>
+            <a href="{% url 'note:detailnote' note.id %}">
+              <div class="my-2 card">
+                <div class="card-body">
+                    <h4 class="card-title text-truncate">{{ note.title }}</h4>
+                    <p class="text-secondary">{{ note.updated_at|naturaltime }}</p>
+                    <p class="card-text text-truncate">
+                        {{ note.body }}
+                    </p>  
+                    <form class="my-1 form-inline" action="{% url 'note:deletenote' note.id %}" method="post">
+                      {% csrf_token %}
+                    <a href="{% url 'note:updatenote' note.id %}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square fa-sm"></i></a>
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can fa-sm"></i></button>
+                  </form>
+                </div>
+              </div>
+            </a>
           </div>
-        </div>
+        {% empty %}
+          {% if not user.is_authenticated %}
+            <div class="container mt-5 d-flex justify-content-center align-items-center flex-column">
+              <div class="col-sm-5">
+                <div class="my-2 card">
+                  <div class="card-body">
+                    <h4 class="card-title">Hello World</h4>
+                    <p class="text-secondary">2020-01-03</p>
+                    <p class="card-text text-danger">
+                      Login in to keep your notes for more than 10 days of last request.
+                    </p>  
+                    <a href="#" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square fa-sm"></i></a>
+                    <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash-can fa-sm"></i></a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
         {% endfor %}
-        
     </div>
+
+    {% if notes|length >= 1 and notes|length < 9 %}
+      <div class="w-100 my-2 fixed-bottom d-flex justify-content-center align-items-center">
+    {% elif notes|length >= 9 %}
+      <div class="w-100 my-2 sticky-bottom d-flex justify-content-center align-items-center">
+    {% else %}
+      <div class="w-100 my-2 d-none justify-content-center align-items-center">
+    {% endif %}
+        <div class="pagination">
+          <span class="step-links">
+              {% if page_obj.has_previous %}
+                  <a class="btn btn-primary" href="?page=1">&laquo;</a>
+                  <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+              {% endif %}
+      
+              <span class="btn btn-primary">{{ page_obj.number }}</span>
+      
+              {% if page_obj.has_next %}
+                  <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                  <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+              {% endif %}
+          </span>
+        </div>
+      </div>
 </main>
 {% endblock body %}

@@ -3,7 +3,12 @@ from typing import Any, Dict
 from django import forms
 from .models import Profile
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import (
+    UserCreationForm, 
+    AuthenticationForm, 
+    PasswordResetForm,
+    SetPasswordForm
+)
 
 
 class SignupForm(UserCreationForm):
@@ -70,6 +75,12 @@ class SignupForm(UserCreationForm):
     
 
 class LoginForm(AuthenticationForm):
+
+    error_messages = {
+        "invalid_login": "Invalid Username or Password.",
+        "inactive": "This account is inactive.",
+    }
+    
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             "autofocus": True,
@@ -114,3 +125,41 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image']
+        labels = {
+            'image': ''
+        }
+
+
+class PassResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control border border-dark',
+                'placeholder': 'Email ...'
+            }
+        ),
+        error_messages={"invalid": "Invalid email address"}
+    )
+
+class PassNewForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="New password",
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-control border border-dark",
+                "placeholder": "New Password ..."
+            }),
+        strip=False,
+        help_text="Only letters, number, _ and . allowed"
+    )
+    new_password2 = forms.CharField(
+        label="New password confirmation",
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-control border border-dark",
+                "placeholder": "Re-type New Password ..."
+            }),
+    )

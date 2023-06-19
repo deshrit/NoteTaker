@@ -10,10 +10,12 @@
 <div class="container w-100 h-100 d-flex justify-content-center align-items-center flex-column">
     <form class="col-sm-4" action="" method="post">
         {% csrf_token %}
-        <h1 class="text-center text-white py-2 bg-secondary rounded">NoteTaker - Login</h1>
+        <a href="{% url 'note:index' %}" class="text-reset text-decoration-none">
+            <h1 class="text-center text-white py-2 bg-secondary rounded">NoteTaker</h1>
+        </a>
         
         {% if form.errors %}
-            <div class="alert alert-danger p-1">
+            <div class="alert alert-danger py-2">
                 {% for field, errors in form.errors.items %}
                     {% for error in errors %}
                         {{ error }}<br>
@@ -30,6 +32,7 @@
             {% endif %}
         </div>
         {% endfor %}
+        <p class="ms-3" >Forgot password? <a href="{% url 'users:password_reset' %}">Reset</a></p>
         <input class="btn btn-primary w-100" type="submit" value="Login">
     </form>
     <p>Don't have account? <a href="{% url 'users:signup' %}">Signup</a></p>

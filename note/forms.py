@@ -15,6 +15,9 @@ class TakeNoteForm(forms.Form):
             'class': 'form-control',
             'placeholder': 'Note ...'
         }),
+        error_messages={
+            'required': 'Note field cannot be empty.'
+        }
     )
 
 class UpdateNoteForm(forms.ModelForm):
@@ -31,7 +34,7 @@ class UpdateNoteForm(forms.ModelForm):
             'body': forms.Textarea(
                 attrs = {
                     'class': 'form-control',
-                    'placeholder': 'Body ...'
+                    'placeholder': 'Update ...'
                 }
             )
         }

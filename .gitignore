@@ -6,3 +6,6 @@ __pycache__/
 *.pyc
 
 media/
+!media/profile_pics/default.jpg
+
+db.sqilte3

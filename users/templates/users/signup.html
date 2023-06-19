@@ -10,7 +10,9 @@
 <div class="container w-100 h-100 d-flex justify-content-center align-items-center flex-column">
     <form class="col-sm-4" action="" method="post">
         {% csrf_token %}
-        <h1 class="text-center text-white py-2 bg-secondary rounded">NoteTaker - Signup</h1>
+        <a href="{% url 'note:index' %}" class="text-reset text-decoration-none">
+            <h1 class="text-center text-white py-2 bg-secondary rounded">NoteTaker</h1>
+        </a>
         
         {% if form.errors %}
             <div class="alert alert-danger p-1">

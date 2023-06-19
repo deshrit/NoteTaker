@@ -3,17 +3,15 @@
 
 
 {% block head %}
-<title>Login</title>
-<link rel="stylesheet" href="{% static '/note/css/login.css' %}">
+<title>TakeNote</title>
 {% endblock head %}
 
 
 {% block body %}
-{% include "note/nav.html" %}
-<div class="container w-100 h-100 d-flex justify-content-center align-items-center flex-column">
+{% include "nav.html" %}
+<div class="container mt-5 d-flex justify-content-center align-items-center flex-column">
     <form class="col-sm-4" action="" method="post">
         {% csrf_token %}
-        <h1 class="text-center text-white py-2 bg-secondary rounded">Take note</h1>
         {% if form.errors %}
             <div class="alert alert-danger p-1">
                 {% for field, errors in form.errors.items %}
@@ -31,7 +29,10 @@
             {% endif %}
         </div>
         {% endfor %}
-        <input class="btn btn-primary w-100" type="submit" value="Take Note">
+        <input class="my-2 btn btn-primary w-100" type="submit" value="Take Note">
+        <a class="btn btn-danger w-100"  href="{% url 'note:index' %}">
+            Cancel
+        </a>
     </form>
 </div>
 {% endblock body %}
