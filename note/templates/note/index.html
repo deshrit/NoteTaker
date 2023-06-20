@@ -47,6 +47,8 @@
                 </div>
               </div>
             </div>
+          {% elif user.is_authenticated %}
+          <p class="text-muted">You have no notes..</p>
           {% endif %}
         {% endfor %}
     </div>

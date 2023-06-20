@@ -1,8 +1,8 @@
 import re
-from typing import Any, Dict
 from django import forms
 from .models import Profile
 from django.contrib.auth.models import User
+from django import forms
 from django.contrib.auth.forms import (
     UserCreationForm, 
     AuthenticationForm, 
@@ -131,6 +131,10 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class PassResetForm(PasswordResetForm):
+    error_messages = {
+        'not_registered': "Email ID is not Registered",
+    }
+    
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
@@ -140,6 +144,16 @@ class PassResetForm(PasswordResetForm):
         ),
         error_messages={"invalid": "Invalid email address"}
     )
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not User.objects.filter(email=email):
+            raise forms.ValidationError(
+                self.error_messages['not_registered'],
+                code='not_registered'
+            )
+        return email
+
 
 class PassNewForm(SetPasswordForm):
     new_password1 = forms.CharField(
