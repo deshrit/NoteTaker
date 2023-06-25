@@ -5,7 +5,7 @@
 __pycache__/
 *.pyc
 
-media/
-!media/profile_pics/default.jpg
+staticfiles/
+!staticfiles/media/profile_pics/default.jpg
 
 db.sqilte3

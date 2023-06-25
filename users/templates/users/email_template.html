@@ -1,11 +1,11 @@
 {% load i18n %}{% autoescape off %}
-{% blocktranslate %}NoteTaker Password Reset Email - {{ site_name }}.{% endblocktranslate %}
+{% blocktranslate %}NoteTaker Password Reset Email.{% endblocktranslate %}
 
 {% translate "Please go to the following page and choose a new password:" %}
 {% block reset_link %}
 {{ protocol }}://{{ domain }}{% url 'users:password_reset_confirm' uidb64=uid token=token %}
 {% endblock %}
-{% translate 'Your username, in case you’ve forgotten:' %} {{ user.get_username }}
+{% translate 'Your username:' %} {{ user.get_username }}
 
 {% translate "Thanks for using NoteTaker!" %}
 

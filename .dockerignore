@@ -1,0 +1,13 @@
+# .dockerignore only works in the context of Dockerfile
+
+.env
+.venv/
+
+__pycache__/
+core/__pycache__/
+note/__pycache__/
+users/__pycache__/
+note/migrations/__pycache__/
+users/migrations/__pycache__/
+
+.git/
