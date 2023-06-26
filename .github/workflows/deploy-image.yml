@@ -1,0 +1,23 @@
+name: Deploy Image
+on:
+    push:
+        branches: [ main ]
+    
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkou@v3
+        
+        - name: Build the image
+          run: docker build -t ${{ vars.DOCKERHUB_IMG_NAME }} .
+
+        - name: Login into docker hub
+          run: >
+            echo "${{ secrets.DOCKERHUB_PASSWORD }}" |
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }}
+            --password-stdin
+
+        - name: Push image to dockerhub
+          run: docker push ${{ vars.DOCKERHUB_IMG_NAME }}
