@@ -5,7 +5,7 @@ A simple fullstack application in production
 [live](https://dnotetaker.azurewebsites.net/)
 
 # To run locally
-#### 1. create ./.env file
+#### 1. create `.env` file in project root
 ```
 # Django
 DJANGO_SECRET_KEY=<your_key>
